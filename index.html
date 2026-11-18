@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vault of #Hans_G_Baba — Awóníran Olúwaséyí (2014–2020)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#0b0f17',
+                        surface: '#131926',
+                        surfaceHover: '#1a2234',
+                        gold: {
+                            DEFAULT: '#D4AF37',
+                            light: '#F3E5AB',
+                            dark: '#997A15'
+                        },
+                        neonEmerald: {
+                            DEFAULT: '#10b981',
+                            glow: '#34d399'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Lora', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts: Lora & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome for crisp iconography -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0b0f17;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .font-poetic {
+            font-family: 'Lora', Georgia, serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0f17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #232d42;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .gold-glow {
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.12);
+        }
+        .emerald-glow {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-gold selection:text-obsidian">
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-surface border border-gold/40 text-gray-100 px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 gold-glow">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-gold text-lg"></i>
+            <span id="toastText" class="text-sm font-medium">Notification</span>
+        </div>
+    </div>
+
+    <!-- Top Sticky Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-obsidian/90 backdrop-blur-md border-b border-gray-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Brand Identity -->
+            <div class="flex items-center gap-3.5 cursor-pointer group" onclick="resetAndGoTop()">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-gold via-yellow-500 to-gold-dark flex items-center justify-center text-obsidian font-serif font-bold text-2xl shadow-lg group-hover:scale-105 transition">
+                    H
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="font-bold text-white tracking-tight text-base sm:text-lg">The Vault of <span class="text-gold">#Hans_G_Baba</span></span>
+                    </div>
+                    <p class="text-xs text-gray-400">Awóníran Olúwaséyí • Complete Anthology (2014–2020)</p>
+                </div>
+            </div>
+
+            <!-- Action Controls -->
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <!-- Special Tribute Button -->
+                <button onclick="openTributeModal()" class="px-3.5 py-2.5 rounded-xl bg-surface hover:bg-surfaceHover border border-gold/30 text-gold text-xs sm:text-sm font-medium transition flex items-center gap-2" title="Read Adefisayo Adesoye's 2014 Tribute">
+                    <i class="fa-solid fa-award"></i>
+                    <span class="hidden sm:inline">2014 Tribute</span>
+                </button>
+
+                <!-- Ambient Reading Mode (Web Audio API) -->
+                <button id="ambientBtn" onclick="toggleAmbientAudio()" class="px-3.5 py-2.5 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-300 text-xs sm:text-sm font-medium transition flex items-center gap-2" title="Toggle Ambient Reading Synth">
+                    <i id="ambientIcon" class="fa-solid fa-wave-square text-neonEmerald"></i>
+                    <span class="hidden md:inline" id="ambientLabel">Ambient Mode</span>
+                </button>
+
+                <!-- Add New Poem Button -->
+                <button onclick="openAddModal()" class="px-4 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-obsidian font-semibold text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-gold/10">
+                    <i class="fa-solid fa-feather-pointed"></i>
+                    <span>Add Verse</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Museum Exhibition Hero & Author Bio -->
+    <section class="relative border-b border-gray-800/80 overflow-hidden">
+        <!-- Subtle radial grid backdrop -->
+        <div class="absolute inset-0 opacity-[0.07] bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none"></div>
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Left Column: Title & Literary Intro -->
+                <div class="lg:col-span-8 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-gold/30 text-gold text-xs font-medium tracking-wider uppercase">
+                        <i class="fa-solid fa-landmark"></i> Museum-Grade Digital Archive • 21 Transcribed Works
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-bold text-white tracking-tight leading-tight">
+                        Awóníran Olúwaséyí <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-gold-light to-neonEmerald">(#Hans_G_Baba)</span>
+                    </h1>
+                    <p class="font-poetic text-gray-300 text-base sm:text-lg leading-relaxed max-w-3xl italic">
+                        “From the rainy midnight hostel beats of 2014 at FUTA to the stoic war zones of the decade close in 2020 — an unedited chronicle of brotherhood, maternal devotion, heartbreak, moral philosophy, and relentless survival.”
+                    </p>
+                    <!-- Author Metadata Badges -->
+                    <div class="flex flex-wrap items-center gap-3 pt-2 text-xs text-gray-300">
+                        <span class="px-3 py-1.5 rounded-xl bg-surface border border-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-cake-candles text-gold"></i> Born March 16
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-surface border border-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-gold"></i> FUTA Alumnus (SEWS Klass '16)
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-surface border border-gray-800 flex items-center gap-2">
+                            <i class="fa-solid fa-school text-gold"></i> C.H.S. Kumapayi '08 Set
+                        </span>
+                        <span class="px-3 py-1.5 rounded-xl bg-surface border border-neonEmerald/30 text-neonEmerald flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved"></i> Chronicler of Resilience
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Right Column: Special Dedication Card -->
+                <div class="lg:col-span-4">
+                    <div onclick="openTributeModal()" class="bg-surface hover:bg-surfaceHover border border-gold/30 rounded-3xl p-6 cursor-pointer transition duration-300 gold-glow group relative overflow-hidden">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-xs font-semibold uppercase tracking-wider text-gold flex items-center gap-1.5">
+                                <i class="fa-solid fa-star"></i> Special Dedication
+                            </span>
+                            <span class="text-xs text-gray-400">March 16, 2014</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-gold transition mb-1">“Sheyi Awo.”</h3>
+                        <p class="text-xs text-gray-400 mb-3">Birthday Tribute by <span class="text-gray-200 font-medium">Adefisayo Adesoye</span></p>
+                        <p class="font-poetic text-sm text-gray-300 italic line-clamp-2 mb-4">
+                            “Friend — This friend, that I may not have appreciated... tho' to me 1 in a million. When I see my fri...”
+                        </p>
+                        <span class="text-xs font-semibold text-gold inline-flex items-center gap-1.5 group-hover:translate-x-1 transition">
+                            Open Archival Dedication <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Filter Tabs & Search Bar -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
+            <!-- Era Filter Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 no-scrollbar" id="eraTabs">
+                <button onclick="setFilter('all')" data-tab="all" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-gold text-obsidian transition shadow-md">
+                    All Works (<span id="countAll">21</span>)
+                </button>
+                <button onclick="setFilter('era1')" data-tab="era1" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-gold/50 transition">
+                    Era I: FUTA Genesis (2014–2016)
+                </button>
+                <button onclick="setFilter('era2')" data-tab="era2" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-neonEmerald/50 transition">
+                    Era II: The Storm & Decade (2018–2020)
+                </button>
+                <button onclick="setFilter('favorites')" data-tab="favorites" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-gold/50 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart text-gold"></i> Favorites (<span id="countFavs">0</span>)
+                </button>
+            </div>
+
+            <!-- Live Search Input -->
+            <div class="relative w-full lg:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="searchInput" oninput="renderAnthology()" placeholder="Search title, stanza, date, theme..." class="w-full bg-surface border border-gray-800 focus:border-gold rounded-xl pl-11 pr-9 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none transition">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Anthology Section Container -->
+        <div id="anthologyContainer" class="space-y-12">
+            <!-- Dynamically rendered poem sections and cards -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/80 bg-obsidian py-8 px-4 sm:px-6 lg:px-8 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-neonEmerald"></span>
+                <span>The Vault of <strong class="text-gold">#Hans_G_Baba</strong> — Awóníran Olúwaséyí (2014–2020)</span>
+            </div>
+            <p class="text-center sm:text-right">Preserved verbatim from personal literary archives • Born March 16</p>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- FULL-SCREEN / MODAL POEM READER VIEW                                  -->
+    <!-- ===================================================================== -->
+    <div id="readerModal" class="fixed inset-0 z-50 bg-obsidian/95 backdrop-blur-md hidden flex flex-col">
+        <!-- Reader Top Toolbar -->
+        <div class="border-b border-gray-800 bg-obsidian/90 px-4 sm:px-8 h-16 flex items-center justify-between gap-4 shrink-0">
+            <button onclick="closeReader()" class="px-3.5 py-2 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-200 text-xs sm:text-sm font-medium flex items-center gap-2 transition">
+                <i class="fa-solid fa-arrow-left text-gold"></i>
+                <span>Back to Vault</span>
+            </button>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Font Size Adjuster -->
+                <div class="flex items-center bg-surface border border-gray-800 rounded-xl p-1">
+                    <button onclick="changeReaderFontSize(-2)" class="w-8 h-8 rounded-lg hover:bg-surfaceHover text-gray-300 hover:text-gold text-xs font-bold transition" title="Decrease Font Size">A-</button>
+                    <span id="fontSizeLabel" class="px-2 text-xs text-gray-400 font-medium hidden sm:inline">18px</span>
+                    <button onclick="changeReaderFontSize(2)" class="w-8 h-8 rounded-lg hover:bg-surfaceHover text-gray-300 hover:text-gold text-xs font-bold transition" title="Increase Font Size">A+</button>
+                </div>
+
+                <!-- Copy Poem Button -->
+                <button onclick="copyPoemText()" class="px-3.5 py-2 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-200 text-xs sm:text-sm font-medium flex items-center gap-2 transition" title="Copy Poem to Clipboard">
+                    <i class="fa-regular fa-copy text-gold"></i>
+                    <span class="hidden sm:inline">Copy</span>
+                </button>
+
+                <!-- Favorite Toggle Button -->
+                <button id="readerFavBtn" onclick="toggleCurrentFavorite()" class="w-10 h-10 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-300 flex items-center justify-center transition" title="Toggle Favorite">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Reader Scrollable Body -->
+        <div class="flex-grow overflow-y-auto px-4 sm:px-6 py-8 sm:py-12">
+            <article class="max-w-3xl mx-auto bg-surface border border-gray-800/90 rounded-3xl p-6 sm:p-12 shadow-2xl relative overflow-hidden animate-fade-up">
+                <!-- Subtle top accent bar -->
+                <div id="readerAccentBar" class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold via-gold-light to-neonEmerald"></div>
+
+                <!-- Poem Metadata Header -->
+                <header class="border-b border-gray-800 pb-6 mb-8">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <span id="readerNumberBadge" class="text-xs font-semibold px-3 py-1 rounded-full bg-gold/10 text-gold border border-gold/30">
+                            #01 • ERA I
+                        </span>
+                        <span id="readerDate" class="text-xs text-gray-400 font-medium">March 16, 2014</span>
+                    </div>
+                    <h2 id="readerTitle" class="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-snug">
+                        Poem Title
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-2">By <span class="text-gold font-medium">Awóníran Olúwaséyí (#Hans_G_Baba)</span></p>
+
+                    <!-- Optional Historical Context Note -->
+                    <div id="readerContextBox" class="hidden mt-5 p-4 rounded-2xl bg-obsidian/70 border border-gold/30 text-xs sm:text-sm text-gold-light flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-gold mt-0.5 shrink-0"></i>
+                        <div>
+                            <span class="font-semibold uppercase tracking-wider text-[11px] text-gold block mb-0.5">Archival Context Note</span>
+                            <p id="readerContextText" class="text-gray-300 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Verbatim Poetic Stanzas -->
+                <div id="readerStanzas" class="font-poetic text-gray-100 whitespace-pre-line leading-relaxed tracking-normal" style="font-size: 18px;">
+                    <!-- Stanzas injected here -->
+                </div>
+
+                <!-- Archival Footer Stamp -->
+                <footer class="mt-12 pt-6 border-t border-gray-800 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-400">
+                    <span>Verified Archival Transcription</span>
+                    <span class="text-gold font-semibold">#Hans_G_Baba</span>
+                </footer>
+            </article>
+
+            <!-- Next / Previous Poem Navigation -->
+            <div class="max-w-3xl mx-auto mt-6 grid grid-cols-2 gap-4">
+                <button id="prevPoemBtn" onclick="navigatePoem(-1)" class="p-4 rounded-2xl bg-surface hover:bg-surfaceHover border border-gray-800 text-left transition flex items-center gap-3 disabled:opacity-40 disabled:pointer-events-none">
+                    <i class="fa-solid fa-chevron-left text-gold"></i>
+                    <div class="overflow-hidden">
+                        <span class="text-[11px] uppercase tracking-wider text-gray-400 block">Previous Piece</span>
+                        <span id="prevPoemTitle" class="text-xs sm:text-sm font-semibold text-white trunc-400 mb-3">Birthday Tribute by <span class="text-gray-200 font-medium">Adefisayo Adesoye</span></p>
+                        <p class="font-poetic text-sm text-gray-300 italic line-clamp-2 mb-4">
+                            “Friend — This friend, that I may not have appreciated... tho' to me 1 in a million. When I see my fri...”
+                        </p>
+                        <span class="text-xs font-semibold text-gold inline-flex items-center gap-1.5 group-hover:translate-x-1 transition">
+                            Open Archival Dedication <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Filter Tabs & Search Bar -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-8">
+            <!-- Era Filter Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 no-scrollbar" id="eraTabs">
+                <button onclick="setFilter('all')" data-tab="all" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-gold text-obsidian transition shadow-md">
+                    All Works (<span id="countAll">21</span>)
+                </button>
+                <button onclick="setFilter('era1')" data-tab="era1" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-gold/50 transition">
+                    Era I: FUTA Genesis (2014–2016)
+                </button>
+                <button onclick="setFilter('era2')" data-tab="era2" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-neonEmerald/50 transition">
+                    Era II: The Storm & Decade (2018–2020)
+                </button>
+                <button onclick="setFilter('favorites')" data-tab="favorites" class="tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-gold/50 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart text-gold"></i> Favorites (<span id="countFavs">0</span>)
+                </button>
+            </div>
+
+            <!-- Live Search Input -->
+            <div class="relative w-full lg:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="searchInput" oninput="renderAnthology()" placeholder="Search title, stanza, date, theme..." class="w-full bg-surface border border-gray-800 focus:border-gold rounded-xl pl-11 pr-9 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none transition">
+                <button id="clearSearchBtn" onclick="clearSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white text-xs">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Anthology Section Container -->
+        <div id="anthologyContainer" class="space-y-12">
+            <!-- Dynamically rendered poem sections and cards -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800/80 bg-obsidian py-8 px-4 sm:px-6 lg:px-8 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+            <div class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-neonEmerald"></span>
+                <span>The Vault of <strong class="text-gold">#Hans_G_Baba</strong> — Awóníran Olúwaséyí (2014–2020)</span>
+            </div>
+            <p class="text-center sm:text-right">Preserved verbatim from personal literary archives • Born March 16</p>
+        </div>
+    </footer>
+
+    <!-- ===================================================================== -->
+    <!-- FULL-SCREEN / MODAL POEM READER VIEW                                  -->
+    <!-- ===================================================================== -->
+    <div id="readerModal" class="fixed inset-0 z-50 bg-obsidian/95 backdrop-blur-md hidden flex flex-col">
+        <!-- Reader Top Toolbar -->
+        <div class="border-b border-gray-800 bg-obsidian/90 px-4 sm:px-8 h-16 flex items-center justify-between gap-4 shrink-0">
+            <button onclick="closeReader()" class="px-3.5 py-2 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-200 text-xs sm:text-sm font-medium flex items-center gap-2 transition">
+                <i class="fa-solid fa-arrow-left text-gold"></i>
+                <span>Back to Vault</span>
+            </button>
+
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Font Size Adjuster -->
+                <div class="flex items-center bg-surface border border-gray-800 rounded-xl p-1">
+                    <button onclick="changeReaderFontSize(-2)" class="w-8 h-8 rounded-lg hover:bg-surfaceHover text-gray-300 hover:text-gold text-xs font-bold transition" title="Decrease Font Size">A-</button>
+                    <span id="fontSizeLabel" class="px-2 text-xs text-gray-400 font-medium hidden sm:inline">18px</span>
+                    <button onclick="changeReaderFontSize(2)" class="w-8 h-8 rounded-lg hover:bg-surfaceHover text-gray-300 hover:text-gold text-xs font-bold transition" title="Increase Font Size">A+</button>
+                </div>
+
+                <!-- Copy Poem Button -->
+                <button onclick="copyPoemText()" class="px-3.5 py-2 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-200 text-xs sm:text-sm font-medium flex items-center gap-2 transition" title="Copy Poem to Clipboard">
+                    <i class="fa-regular fa-copy text-gold"></i>
+                    <span class="hidden sm:inline">Copy</span>
+                </button>
+
+                <!-- Favorite Toggle Button -->
+                <button id="readerFavBtn" onclick="toggleCurrentFavorite()" class="w-10 h-10 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-300 flex items-center justify-center transition" title="Toggle Favorite">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Reader Scrollable Body -->
+        <div class="flex-grow overflow-y-auto px-4 sm:px-6 py-8 sm:py-12">
+            <article class="max-w-3xl mx-auto bg-surface border border-gray-800/90 rounded-3xl p-6 sm:p-12 shadow-2xl relative overflow-hidden animate-fade-up">
+                <!-- Subtle top accent bar -->
+                <div id="readerAccentBar" class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold via-gold-light to-neonEmerald"></div>
+
+                <!-- Poem Metadata Header -->
+                <header class="border-b border-gray-800 pb-6 mb-8">
+                    <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <span id="readerNumberBadge" class="text-xs font-semibold px-3 py-1 rounded-full bg-gold/10 text-gold border border-gold/30">
+                            #01 • ERA I
+                        </span>
+                        <span id="readerDate" class="text-xs text-gray-400 font-medium">March 16, 2014</span>
+                    </div>
+                    <h2 id="readerTitle" class="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-snug">
+                        Poem Title
+                    </h2>
+                    <p class="text-xs text-gray-400 mt-2">By <span class="text-gold font-medium">Awóníran Olúwaséyí (#Hans_G_Baba)</span></p>
+
+                    <!-- Optional Historical Context Note -->
+                    <div id="readerContextBox" class="hidden mt-5 p-4 rounded-2xl bg-obsidian/70 border border-gold/30 text-xs sm:text-sm text-gold-light flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-gold mt-0.5 shrink-0"></i>
+                        <div>
+                            <span class="font-semibold uppercase tracking-wider text-[11px] text-gold block mb-0.5">Archival Context Note</span>
+                            <p id="readerContextText" class="text-gray-300 leading-relaxed"></p>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Verbatim Poetic Stanzas -->
+                <div id="readerStanzas" class="font-poetic text-gray-100 whitespace-pre-line leading-relaxed tracking-normal" style="font-size: 18px;">
+                    <!-- Stanzas injected here -->
+                </div>
+
+                <!-- Archival Footer Stamp -->
+                <footer class="mt-12 pt-6 border-t border-gray-800 flex flex-wrap items-center justify-between gap-4 text-xs text-gray-400">
+                    <span>Verified Archival Transcription</span>
+                    <span class="text-gold font-semibold">#Hans_G_Baba</span>
+                </footer>
+            </article>
+
+            <!-- Next / Previous Poem Navigation -->
+            <div class="max-w-3xl mx-auto mt-6 grid grid-cols-2 gap-4">
+                <button id="prevPoemBtn" onclick="navigatePoem(-1)" class="p-4 rounded-2xl bg-surface hover:bg-surfaceHover border border-gray-800 text-left transition flex items-center gap-3 disabled:opacity-40 disabled:pointer-events-none">
+                    <i class="fa-solid fa-chevron-left text-gold"></i>
+                    <div class="overflow-hidden">
+                        <span class="text-[11px] uppercase tracking-wider text-gray-400 block">Previous Piece</span>
+                        <span id="prevPoemTitle" class="text-xs sm:text-sm font-semibold text-white truncate block">Title</span>
+                    </div>
+                </button>
+
+                <button id="nextPoemBtn" onclick="navigatePoem(1)" class="p-4 rounded-2xl bg-surface hover:bg-surfaceHover border border-gray-800 text-right transition flex items-center justify-end gap-3 disabled:opacity-40 disabled:pointer-events-none">
+                    <div class="overflow-hidden">
+                        <span class="text-[11px] uppercase tracking-wider text-gray-400 block">Next Piece</span>
+                        <span id="nextPoemTitle" class="text-xs sm:text-sm font-semibold text-white truncate block">Title</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-gold"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- SPECIAL DEDICATION MODAL (ADEFISAYO ADESOYE TRIBUTE)                  -->
+    <!-- ===================================================================== -->
+    <div id="tributeModal" class="fixed inset-0 z-50 bg-obsidian/90 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-surface border border-gold/40 max-w-xl w-full rounded-3xl p-6 sm:p-8 shadow-2xl gold-glow animate-fade-up relative">
+            <button onclick="closeTributeModal()" class="absolute top-5 right-5 w-9 h-9 rounded-xl bg-obsidian border border-gray-800 text-gray-400 hover:text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-semibold mb-4">
+                <i class="fa-solid fa-award"></i> Archival Timeline Dedication • March 16, 2014
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-1">“Sheyi Awo.”</h3>
+            <p class="text-sm text-gray-400 mb-6">Written in tribute by <span class="text-gold font-semibold">Adefisayo Adesoye</span> on your 2014 Birthday</p>
+
+            <div class="bg-obsidian/80 border border-gray-800 rounded-2xl p-6 font-poetic text-gray-200 text-base sm:text-lg leading-relaxed whitespace-pre-line italic mb-6">Friend
+This friend, that I may not have appreciated... tho' to me 1 in a million. When I see my fri...</div>
+
+            <p class="text-xs text-gray-400 leading-relaxed mb-6">
+                Preserved from Awóníran Olúwaséyí’s March 16, 2014 timeline archive — standing right beside <em>“RESPONSIBILITIES!!! (HBD TO ME)”</em> as a testament to enduring brotherhood and mutual respect during the FUTA years.
+            </p>
+
+            <div class="flex justify-end">
+                <button onclick="closeTributeModal()" class="px-5 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-obsidian font-semibold text-sm transition">
+                    Close Dedication
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- ADD NEW POEM MODAL (PERSISTS TO LOCALSTORAGE)                         -->
+    <!-- ===================================================================== -->
+    <div id="addModal" class="fixed inset-0 z-50 bg-obsidian/90 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-surface border border-gray-800 max-w-2xl w-full rounded-3xl p-6 sm:p-8 shadow-2xl animate-fade-up max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between pb-4 border-b border-gray-800 mb-6">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2.5">
+                    <i class="fa-solid fa-feather-pointed text-gold"></i> Inscribe New Verse into Vault
+                </h3>
+                <button onclick="closeAddModal()" class="w-9 h-9 rounded-xl bg-obsidian border border-gray-800 text-gray-400 hover:text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="addPoemForm" onsubmit="saveNewPoem(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Poem Title *</label>
+                    <input type="text" id="inputTitle" required placeholder="e.g. Echoes of Tomorrow" class="w-full bg-obsidian border border-gray-800 focus:border-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Archival Era *</label>
+                        <select id="inputEra" class="w-full bg-obsidian border border-gray-800 focus:border-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                            <option value="era2">Era II: The Storm & Decade (2018–2020+)</option>
+                            <option value="era1">Era I: FUTA Genesis & Campus Days (2014–2016)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Date / Timestamp</label>
+                        <input type="text" id="inputDate" placeholder="e.g. March 16, 2026" class="w-full bg-obsidian border border-gray-800 focus:border-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Historical Context Note (Optional)</label>
+                    <input type="text" id="inputContext" placeholder="e.g. Written after midnight reflection..." class="w-full bg-obsidian border border-gray-800 focus:border-gold rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase tracking-wider text-gray-300 mb-1.5">Complete Stanzas *</label>
+                    <textarea id="inputContent" rows="8" required placeholder="Write or paste your poem stanzas here..." class="w-full bg-obsidian border border-gray-800 focus:border-gold rounded-xl px-4 py-3 text-sm text-white font-poetic leading-relaxed focus:outline-none"></textarea>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4 border-t border-gray-800">
+                    <button type="button" onclick="closeAddModal()" class="px-5 py-2.5 rounded-xl bg-obsidian border border-gray-800 text-gray-300 hover:text-white text-sm font-medium transition">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-gold hover:bg-gold-light text-obsidian font-semibold text-sm transition shadow-lg shadow-gold/10">
+                        Save to Vault
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===================================================================== -->
+    <!-- COMPLETE ARCHIVAL DATA & INTERACTIVE APPLICATION ENGINE               -->
+    <!-- ===================================================================== -->
+    <script>
+        // All 21 Complete Verbatim Poems in Exact Chronological Order
+        const ARCHIVE_POEMS = [
+            // ERA I: THE FUTA GENESIS & CAMPUS DAYS (2014 – 2016)
+            {
+                id: 'poem-01',
+                number: 1,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'RESPONSIBILITIES!!! (HBD TO ME)',
+                date: 'March 16, 2014',
+                theme: 'Birthday Milestone & Manhood',
+                context: 'Written on Awóníran Olúwaséyí’s birthday (March 16, 2014), capturing the exact transition from carefree youth to carrying the heavy responsibilities of adulthood and seeing the silent weight in his father’s eyes.',
+                content: `Just like yesterday, I look into there eyes like a dwarf look a tower & they surely dip their hand into pocket & gimme token,
+
+When hungry is my best enemy & always love every second of my life,
+
+Then when boy & girl are equal & nothing special about girls coz we are all frnd.
+
+Hmmmmm.... But it looks like something is wrong nowadays,
+
+Those that I look like a giant then, now am looking them eyeball to eyeball, & they never dip there hand into there pocket to give again, instead I can c those I can see as dwarf & I surely know that this time around I must dip my hands to my pocket to give.
+
+Hungry is a lesson & am afraid of every second of my life asking myself will I be responsible?
+
+Now ladies are special coz there is a pleasing thing about them & are no more friend but thinking to have one as partner.
+
+Now the fear of not making mistake in my first step of life grew all over me.
+
+If I had know, I would have not love every second of my life,
+
+Coz it started a second to a minute & graduated to hours & now another 365days have gone again like usual but d changes is not as usual,
+
+So, maybe am getting older or RESPONSIBILITIES is now getting to me.
+
+Thousands of advise from my mother which is a single word to me, "RESPONSIBLE", but a word from my father that means a thousand to me........ you are a man like me, look into my eyes & see how easy it is to be a RESPONSIBLE man,
+
+But anytime I look into his eyes, I never see anything called EASY.
+
+So HAPPY BIRTHDAY TO ME`
+            },
+            {
+                id: 'poem-02',
+                number: 2,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'Behind my smile. (GRATITUDE!!!)',
+                date: 'March 2014',
+                theme: 'Birthday Gratitude',
+                context: 'A heartfelt expression of appreciation for friends and well-wishers who celebrated his March 16th birthday.',
+                content: `In life, the same reason you smile is the same that makes other cry, we all have people around us, but some regrets people around them & some appreciate, but sometimes you remember your people & cry or smile either, & this same people may be negative to you or positive.
+
+So anytime I look around me, I always smile cos you are all the reason BEHIND MY SMILE.
+
+Thanks to all that add to my joy on the 16th, my birthday, you shall all always have reasons to SMILE 😊`
+            },
+            {
+                id: 'poem-03',
+                number: 3,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'Friends prayer.',
+                date: 'March 24, 2014',
+                theme: 'Devotion to Mother',
+                context: 'A futuristic prayer about finding a spouse who will genuinely love and cherish his mother.',
+                content: `I see the pain her eyes that I must shoot away,
+
+That's why am searching for her friend,
+
+Cos if I make her cry once again by stepping in her shoe,
+
+Then I will never forgive myself,
+
+And if she is not happy by not seeing her friend with me,
+
+Then the rest of my days may be so dark.
+
+#Hans_G_Baba
+#Friends_Prayer`
+            },
+            {
+                id: 'poem-04',
+                number: 4,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'BEAUTIFUL ANNUAL DRUMMERS (Endless Beats Wasted Beats)',
+                date: 'August 2014',
+                theme: 'FUTA Rainy Nights',
+                context: 'Originally drafted as "Endless Beats Wasted Beats" during August rainy nights in the FUTA student hostels.',
+                content: `With a little flavor of anxiety
+(Just like political "keen kun kan")
+The beautiful endless
+ballad beats started
+I knew them
+to be a fast beaters
+But this one
+is neither slow nor fast
+
+I never know
+that this tiny creatures
+Can beats such an aspiring aromatic flavored beats
+That keeps me dancing
+on my mattress
+to their sweet savoring beats which is the cold
+
+OR!!! is this the so called
+"Condition for two? "
+NO!!! It can never be
+Coz this condition is for all
+And pregnancy
+is for all married women.
+
+I feel like jumping out angrily
+Smoking the lyrics
+Singing the melody
+
+"Rain rain go away
+Come and rain another day
+Coz I have no game to play"
+
+Coz this condition is for me only
+And pregnancy is for none
+But I was told to wait for my time
+Coz this beautiful drummers
+Always pays visits ANNUALLY.
+
+#Hans_G_Baba
+#Beautiful_Annual_Drummers`
+            },
+            {
+                id: 'poem-05',
+                number: 5,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'Old Year',
+                date: 'December 31, 2014',
+                theme: 'Year-End Crossover',
+                context: 'Written on New Year’s Eve 2014, bidding farewell to a turbulent year and declaring victory for 2015.',
+                content: `Hey! You this lousy old woman
+you chased me to urban
+like a masquerader in turban
+to tell me you are full
+of up and down
+
+Hey! You are no more pretty
+OH! What a pity!
+You are now above 80
+I don want you in my party
+
+You show how cruel you are
+you have killed a lot
+many got regret of knowing you
+while many are happy to know you
+
+though am among who are
+happy to know you
+but nobody wish to see you again
+
+Go away!
+I have had my gain
+I need new woman
+to play the game
+
+I have had enough of you
+good and bad of you
+pains and gain in you
+tears and smile of you
+
+so you are OLD YEAR
+let it come NEW YEAR
+cos there is where I
+look forward to
+to be rewarded of all
+the pains you gave me
+
+Just like am marrying new wife
+I sat on the roof to see
+how pretty you are
+the new woman.
+
+IN 2015 I SHALL GAIN.
+
+#Hans_G_Baba
+#Old_Year`
+            },
+            {
+                id: 'poem-06',
+                number: 6,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'FOOLS FALL IN LOVE',
+                date: 'December 2014',
+                theme: 'Heartbreak & Realism',
+                context: 'A candid reflection on modern romance, loyalty, and choosing to rise rather than fall blindly.',
+                content: `If I cry,
+you will see me been crazy,
+that’s why I laugh with tears
+in thine eyes,
+why!!!?
+Can you log in to my
+f.b acc and see what
+I can see this morning?
+Just the two of them,
+yes, the duo
+who tells me I can go
+they are looking at my back,
+get hited at their own back.
+
+... Lobatan
+that’s what Muhammed
+just told me yesterday,
+NO LOVE IN MY COUNTRY
+its just a game of relationship
+
+I mean, that’s how our
+parents have been doing it,
+and we must also do the same
+
+love is good,
+but
+fool is the man that fall in it,
+it is better to rise in it,
+when you rise, that’s when
+you can play it like
+my country man
+
+but I have run thousands
+of miles and still found
+myself in a single spot,
+don’t be amazed if I wake in a
+single spot I found myself
+in thousands of miles
+
+so
+don't fall in love
+so
+don't be a fool
+
+#Hans_G_Baba`
+            },
+            {
+                id: 'poem-07',
+                number: 7,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'You are the reason.',
+                date: '2014',
+                theme: 'True Friendship',
+                context: 'An ode to enduring friendship and the mutual strength that carries two friends through life’s burdens.',
+                content: `Friends,
+
+In life we never loose friends but know who our true ones are,
+
+If you see 2 of them been friend for ages, they are both the reason of the mutuality,
+
+I said if you always see them together without a fight, not that it's so easy, but they understands & keep the pains of each other,
+
+You are the one who carry on the burden, coz if you say you cant cope, what will I do?
+
+How can I stay with you if you never make me happy & proud? Coz to me you are the best & THE REASON to be always be together.`
+            },
+            {
+                id: 'poem-08',
+                number: 8,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'HAPPY PUPPY',
+                date: '2014',
+                theme: 'Alliterative Wordplay',
+                context: 'Playful, tongue-twisting alliterative verse from 2014 ending with timeless resilience maxims.',
+                content: `Funny fury poky peaky puppy,
+whistling weakling tweaking
+whiskey weekly,
+nursing noisy mousy crunchy baby
+looking deity, dieting Panty
+in a purple panty
+who shall know why he is happy in panic?
+
+Pinky kinky quickly
+winking weakly puppy
+brutally moroseously mentally
+looking for glory,
+adversary adversity etiology
+cause the idle ideology,
+who shall know why he is happy in panic?
+
+Now victoriously majestically
+happily puppy
+dancing pouncing kissing
+teasing by pretties,
+speaking funky cocky story
+
+NO PAIN, NO GAIN
+NO CROSS, NO CROWN
+
+#Hans_G_Baba
+#Happy_Puppy`
+            },
+            {
+                id: 'poem-09',
+                number: 9,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'Is love blind?',
+                date: 'Campus Days',
+                theme: 'Campus Humour & Yoruba Proverb',
+                context: 'Witty storytelling blending Yoruba wisdom ("omo kékeré tóní ojúàgbà jin") with a memorable campus afternoon mishap.',
+                content: `Love is blind, that's what she said,
+Hahaha!!!, that's what I did,
+omo kékeré tóní ojúàgbà jin, that's her reply,
+HELP!!! that’s how I shouted,
+
+Just like yesterday she says that,
+Just yesterday it happens,
+How did u fell into a pit at afternoon & broke your
+leg, that's what she ask,
+I was thinking about her, that's my reply,
+your girlfriend!!! she asked,
+no, just departmental mate, & we never talk, I replied,
+
+Thank God you r not dating her, she said,
+WHY!!! I replied,
+It would have been trailer or rail, & u would have
+know where u will be by now, she reply,
+HEAVEN!!! I said,
+& love is blind I replied.
+
+#Hans_G_Baba
+#Is_Love_Blind`
+            },
+            {
+                id: 'poem-10',
+                number: 10,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'Sisi Caro',
+                date: 'Campus Days',
+                theme: 'Romantic Lyrical Ode',
+                context: 'A tender, imagery-rich tribute to beauty, golden sunlight, and silver moonlight.',
+                content: `I know not Caroline,
+When again on your
+Brightness of smile
+My eyes will rest awhile
+And your charming look
+My brain will concentrate
+
+Nor when again of your
+softness of touch
+My body will consume
+By eager alternative
+
+When again into the
+Golden sunlight
+You brighten my astonishment
+And again into the silver moonlight
+You early at night or late venture
+As is your won't in fine atmosphere
+
+Astute, awake in bed as doters may,
+I will forever lie
+Dreaming of thy fine tendons
+Like grasping your velvety texture
+Again and again.`
+            },
+            {
+                id: 'poem-11',
+                number: 11,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'I ENJOY DOING EVIL',
+                date: 'March 2015',
+                theme: 'Philosophical Inquiry',
+                context: 'A provocative philosophical reflection on positive versus negative change, the loss of innocence, and the pursuit of forbidden knowledge.',
+                content: `Yes!!!
+Change is what
+everybody want,
+we shout CHANGE!!!
+But never classify it.
+
+There are only
+two types of
+change which are
+Positive change
+and
+Negative change.
+
+I know I'hv change,
+but I keep asking
+myself,
+is it positive or
+negative change?,
+
+You all see me
+changed and
+you all like it,
+and you think
+it's for positive?
+NEVER!!!
+
+Because I have
+checked inside
+myself and found
+that my changes
+are negative.
+But these negative
+change is always
+for the best.
+
+If it is positive,
+then why did I
+think that am no
+more INNOCENT?
+Or am I INNOCENT?
+When I have know
+the factors of
+reproduction.
+
+Or why did I
+think I have
+now know EVIL,
+if I am still
+innocent, when
+I have now
+enjoy seeking
+for the root of evil?
+
+If you don't
+understand,
+then you don't
+know the change
+Mother EVE has
+done to take the
+whole nation this
+far.
+
+We all know that
+it is a negative
+change, but it
+take us to this
+level, it gives us knowledge and understanding.
+It open our eyes
+and let us think we
+are wise like GOD.
+
+SO THE MORE I KNOW "EVIL", AND
+ALSO PRACTICE IT,
+THEN THE MORE
+NEGATIVELY I CHANGE, AND MORE
+GOOD RESULT I HAVE SO FAR I AM STILL UNDER
+THIS SUN.
+
+#Hans_G_Baba
+#I_Enjoyed_Doing_Evil`
+            },
+            {
+                id: 'poem-12',
+                number: 12,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'DAINTY CRACKLE SMILE',
+                date: 'March 2015',
+                theme: 'Brotherhood & Alma Mater',
+                context: 'Birthday appreciation dedicated to family, Community High School Kumapayi (C.H.S.) 2008 Set, and SEWS Klass ’16 at FUTA.',
+                content: `You made it!!!
+You make it great,
+I mean you make
+it wonderful,
+In-case you don't know,
+you are so special,
+you are unique,
+you are so precious
+and so adorable,
+
+I mean you,
+Yes!!! You!!!
+You that posted
+on my timeline
+send me text,
+and even call,
+just live a sec to
+make the special
+day favorable...
+
+YOU MAKE IT SPLENDID!!!
+AM VERY GRATEFUL
+
+My gratitude goes to
+FRIENDS AND FAMILIES
+
+COMMUNITY HIGH SCHOOL KUMAPAYI(C.H.S)
+2008 SET
+
+SOCIETY OF ECOTOURISM AND WILDLIFE
+MANAGEMENT(SEWS) KLASS'16
+
+... Hans-G 2015
+#Hans_G_Baba
+#Dainty_Cracle_Smile`
+            },
+            {
+                id: 'poem-13',
+                number: 13,
+                era: 'era1',
+                eraLabel: 'Era I: FUTA Genesis & Campus Days (2014–2016)',
+                title: 'Favorite February',
+                date: 'February 29, 2016',
+                theme: 'Leap Year Reflection',
+                context: 'Composed on Leap Day (February 29, 2016), reflecting on heat, hardship, and finding hope across four-year cycles.',
+                content: `They called it "Global warming"
+I called it "Global heating"
+maybe the scientists are right
+coz it will soon become
+"Global burning"
+
+coz I know of first month
+at least a shower
+but if no, second month
+once is sure
+but this February denotes none
+
+Yesterday you aren't there
+today I see you here
+no visibility tomorrow
+why you do this?
+
+Coz you leap on four toes
+coz this February is one
+when you leap yesterday
+I am happy to be here
+when you leap today
+am fighting to leave here
+and sure when you
+leap tomorrow all will be well
+coz this February is tough
+
+You raise your axe
+to cause haze
+coz no more bread will be
+if you use your axe
+you cause fear
+go away coz this February is hurt
+
+You are my favorite February
+because
+you cause heat
+came to leap
+make me to seek (for hope)
+and threatens to kill
+
+#Hans_G_Baba
+#Favourite_February`
+            },
+
+            // ERA II: THE STORM, HEAVY ARTILLERY & DECADE RECKONING (2018 – 2020)
+            {
+                id: 'poem-14',
+                number: 14,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'SEASONED SEASON',
+                date: 'December 2018',
+                theme: 'Closing Chapters',
+                context: 'Written at the close of 2018, bidding farewell to a barren season with fierce determination for 2019.',
+                content: `The streets are filled with the aura
+Perceiving and Sniffing the aroma
+From individuals’ dwellings,
+Like they all have same revelry in common,
+Or why?
+
+Wondering why merry
+While they are about to lose
+A pulchritudinous bitch.
+Maybe I should be in their shoe.
+
+Maybe the bitch is not fair,
+Cos for me she is infecund,
+Yet, single, duo, triplet or more
+She delivers for others,
+Even for those that are favoured,
+We are all happy for her dismissal.
+
+This is the bitch that has fucked everyone,
+My profits are what matters most to me,
+In the teeth of laxness, the pleasures
+You gave when you fuck,
+You kept me empty till now,
+So maybe I concur you leave.
+
+You have been seasoned,
+Spiced up and garnished,
+Making your funeral so splendid,
+Dwindle is your love,
+Everyone is happy you leaving,
+We all need new bitch to fuck,
+With the hope she is gonna conceive
+My pleasures,
+
+So go 2018,
+And let it come 2019.
+
+#Hans_G_Baba
+#Seasoned_Season_2018`
+            },
+            {
+                id: 'poem-15',
+                number: 15,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'KILL THE BITCH!',
+                date: 'September 2019',
+                theme: 'Grief & Unfiltered Fury',
+                context: 'Written in September 2019 amid deep personal loss and grief, including condolences to the Adesoye family.',
+                content: `Kill the bitch!, or she kills me
+Because of her libido,
+She makes me her dildo
+My life is on a round of ten
+Now she fucked eight out
+With two more shots
+Am cut short
+
+She is lousy
+In her pinky blouson
+Making my life noisy
+But am not nosy
+So why should I deserve
+everything am loosing?
+
+She kept me weak, for weeks
+Out of so much screams
+For others its a pleasure
+But me, its the other side
+
+With withing an annum
+Hat-tricked flow of tears
+And this is my request
+For all my tears, by your cause
+For all the pleasure pain
+
+Kill this month (Sept)
+Kill this year
+Kill those bitches.
+
+My condolence goes to the Adesoyes
+who lost great man this same evil month
+(September).
+
+Hans-G
+2019`
+            },
+            {
+                id: 'poem-16',
+                number: 16,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: '19th Whip (Exhausted)',
+                date: 'Late 2019',
+                theme: 'Endurance & Starting Over',
+                context: 'Chronicling the cumulative blows of 2019 and the resolve to rebuild from scratch like a toddler.',
+                content: `Its simple as ABC
+Condemning "C"
+Rendring "B" useless
+And all focus on "A"
+
+Every exit to destination I sped behind
+Coz of much aggression on "A"
+And this is a country road
+No U-Turn, no reverse
+just head on till next exit
+
+But leaving too much exit behind
+Am trown much back
+to my destination
+Now considering "B"
+it seems late
+
+The 1st whip is so tender
+no tears
+So I feel so brave
+Now its 19th
+with multiple whips and weeps
+Loosing everything
+am holding unto
+
+Now I will be starting
+all over as a toddler
+
+Maybe its because
+its the end of a decade
+That's why not even
+a single serendipity
+No fear even its not fair
+Just want 19th over
+Maybe 19th wounds
+may be healed
+I hate you 2019.`
+            },
+            {
+                id: 'poem-17',
+                number: 17,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'HIGHER KILLER',
+                date: '2019',
+                theme: 'Conscience & Passion',
+                context: 'A psychological masterwork contrasting hired killers with the inner torment of conscience and passion.',
+                content: `Thou shall not kill
+that is the commandment
+I have choose what to be
+not to be hired to kill
+that's why I am not an
+hired killer
+
+But Passion gives me fever
+that's lasts much longer
+that don't even let me
+know if I love her
+though I try to be stronger
+but blood and bones are weaker
+which makes me hold her
+responsible for my despair
+
+Conscience once accused me
+to be a killer
+but my palm is what I check
+no stain nor blood there
+No life has been taken
+by my hand
+but conscience can't
+stop telling me
+that I am a killer
+
+NOW am in the street
+where all men are
+desperate and strict
+Holding different guns
+and retreat
+ranging from the smallest
+dane to the highest riffle
+that is big
+Aiming to the sky with speed
+sending the innocent ones
+back in bleed
+
+You are hired to kill
+and all you killed are guity
+that's why you are a
+hired killer
+but I killed the innocent
+despite I wasn't hired
+that's why I am a
+HIGHER KILLER.
+
+#Hans_G_Baba
+#Higher_Killer`
+            },
+            {
+                id: 'poem-18',
+                number: 18,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'I Lied!!!',
+                date: '2019',
+                theme: 'Stoic Mask & Twist',
+                context: 'A masterclass in poetic irony—presenting an unshakeable stoic front before delivering a devastating final twist.',
+                content: `I meander for my hanker
+Enough talk,
+so save me from my hanger
+with a bright sunny smile
+on my face don't compel,
+I love my obligue life
+
+Effete? Not I,
+exceptional standing tall
+to life I staunch
+am valorous,
+audacious and astute
+so what a pleasure
+Even much of laughter from happiness causes the
+tears you saw in my eyes
+
+Never mind my bleeding feet,
+I love the hike,
+Neither my puny brawn,
+I can cope cos am
+contented with my
+pinchy inflow
+And that's why I want to live
+
+I believe in God cos he
+answers my prayers before
+I says it
+Then what else do I need?
+
+But above all
+why should you trust
+everything I just said?
+because
+I LIED!!!`
+            },
+            {
+                id: 'poem-19',
+                number: 19,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'My Life, Not Mine',
+                date: '2019',
+                theme: 'Existential Struggle & Hope',
+                context: 'Wrestling with unrewarded labor, unanswered prayers, and holding onto a heartbeat for tomorrow.',
+                content: `Innocently am not guilty
+But in life, it's a pity
+They say happiness is free
+But they never mentioned sadness
+Which is real and the formal not
+
+I needed my life
+Everyday I pay to have it
+Yet what I received
+Doesn't worth my labor
+But does it worth it?
+
+So I wish an heart without a beat
+And a cold feet
+Maybe I can dance to the beat
+Cos I believe that's my only
+Hope of happiness
+
+You prayed for car
+And have a bicycle
+But I work for a house
+And left with nothing
+So your are right calling me stupid
+And I ask, "is he real?"
+He who answers your prayers
+And not mine
+
+I still have an heartbeat
+Maybe someday
+I can say prayers can be answered
+Maybe I can taste some happiness`
+            },
+            {
+                id: 'poem-20',
+                number: 20,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'MIRACLES',
+                date: '2019',
+                theme: 'Work Ethic & Destiny',
+                context: 'Reframing miracles not as passive magic, but as the inevitable harvest of relentless effort and faith.',
+                content: `I only understand my miracle
+Because now
+I knee and pray but no answer
+I work but no payment
+I invested but crashed
+I proposed but no love
+I seek but can’t find
+
+But very soon its sure
+I will not pray but will be answered
+I will not work but get payed
+I will not invest but enjoys investments
+I will not propose but will be loved
+I will not seek but will always find
+And that’s the miracle time
+
+So, if I need more of the miracles, then now I must
+Pray without complaints
+Work smartly, hardly and happily
+Invest more
+Propose gladly
+And seek till my joy is full
+
+So, miracle is not magic
+But the things we do
+Either right or wrong
+But the results is what we expect`
+            },
+            {
+                id: 'poem-21',
+                number: 21,
+                era: 'era2',
+                eraLabel: 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: 'MY DECADE',
+                date: '2020',
+                theme: 'Decade Finale & New Felicity',
+                context: 'The culminating manifesto closing a grueling ten-year cycle and ushering in a new decade of felicity.',
+                content: `HEY BOY, WILL YOU TAKE IT EASY?
+I OWE NOBODY GRATITUDE
+FROM PUNCH TO POUNCE
+EVERY CHANCE TO LIVE CALLS FOR A CHALLENGE
+IT TAKE 10YEARS FOR A BUSINESS TO TRANSFORM
+THEY SAY
+MAYBE I'M A DOPEY OF TRANSITION?
+FOR UNFLAPPABLE COMPLETING OF LAST DECADE.
+RELIGION MAKES ME STOICAL
+BUT I TAKE EVERYDAY AS A WAR
+MY RESIDENCE A WAR ZONE
+EVERYBODY TO BE CONTRA
+MAYBE THERE WAS A TIME I PORTRAY INDULGENCE
+PLEASE DON'T BEG ME TO CALM
+MAYBE THERE IS A EVIL FOR THE PAST YEARS
+YOURS MAY BE A ROUNDUP YEAR
+BUT I BELIEVE MINE IS STARTING WITH THE FIRST NUMBER
+PLEASE 2020, WILL YOU JUST END MY HAPLESS DECADE
+AND LET IT COME 2021 MAYBE THAT'S JUST THE BEGINNING OF MY NEW FELICITY DECADE.
+
+Oluwaseyi Awoniran'20`
+            }
+        ];
+
+        // Load user-added poems from localStorage and merge with canonical archive
+        let customPoems = [];
+        try {
+            const savedCustom = localStorage.getItem('hans_g_baba_custom_poems_v2');
+            if (savedCustom) {
+                customPoems = JSON.parse(savedCustom);
+            }
+        } catch (e) {
+            console.error('Error loading custom poems:', e);
+        }
+
+        let allPoems = [...ARCHIVE_POEMS, ...customPoems];
+
+        // Load favorites from localStorage
+        let favoriteIds = [];
+        try {
+            const savedFavs = localStorage.getItem('hans_g_baba_favs_v2');
+            if (savedFavs) {
+                favoriteIds = JSON.parse(savedFavs);
+            }
+        } catch (e) {
+            console.error('Error loading favorites:', e);
+        }
+
+        let currentTab = 'all';
+        let activePoemId = null;
+        let currentFilteredList = [...allPoems];
+        let readerFontSize = 18;
+
+        // Initialize UI on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCounts();
+            renderAnthology();
+        });
+
+        function updateCounts() {
+            document.getElementById('countAll').textContent = allPoems.length;
+            document.getElementById('countFavs').textContent = favoriteIds.length;
+        }
+
+        function setFilter(tabName) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                const isSelected = btn.getAttribute('data-tab') === tabName;
+                if (isSelected) {
+                    btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap bg-gold text-obsidian transition shadow-md flex items-center gap-1.5';
+                } else {
+                    btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-medium whitespace-nowrap bg-surface border border-gray-800 text-gray-300 hover:border-gold/50 transition flex items-center gap-1.5';
+                }
+            });
+            renderAnthology();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('searchInput');
+            input.value = '';
+            document.getElementById('clearSearchBtn').classList.add('hidden');
+            renderAnthology();
+        }
+
+        function resetAndGoTop() {
+            clearSearch();
+            setFilter('all');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderAnthology() {
+            const container = document.getElementById('anthologyContainer');
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            if (query.length > 0) {
+                clearBtn.classList.remove('hidden');
+            } else {
+                clearBtn.classList.add('hidden');
+            }
+
+            // Filter poems
+            currentFilteredList = allPoems.filter(poem => {
+                const matchesTab =
+                    currentTab === 'all' ||
+                    (currentTab === 'era1' && poem.era === 'era1') ||
+                    (currentTab === 'era2' && poem.era === 'era2') ||
+                    (currentTab === 'favorites' && favoriteIds.includes(poem.id));
+
+                const matchesQuery =
+                    !query ||
+                    poem.title.toLowerCase().includes(query) ||
+                    poem.content.toLowerCase().includes(query) ||
+                    poem.date.toLowerCase().includes(query) ||
+                    (poem.theme && poem.theme.toLowerCase().includes(query));
+
+                return matchesTab && matchesQuery;
+            });
+
+            container.innerHTML = '';
+
+            if (currentFilteredList.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-surface border border-gray-800 rounded-3xl p-12 text-center max-w-lg mx-auto">
+                        <i class="fa-solid fa-feather-pointed text-4xl text-gold/40 mb-4"></i>
+                        <h3 class="text-lg font-bold text-white mb-2">No verses found</h3>
+                        <p class="text-sm text-gray-400 mb-6">
+                            ${currentTab === 'favorites' ? 'You have not bookmarked any favorite poems yet. Tap the heart icon on any poem to save it here.' : 'No poems matched your search filter in the archive.'}
+                        </p>
+                        <button onclick="resetAndGoTop()" class="px-5 py-2.5 rounded-xl bg-gold text-obsidian font-semibold text-xs transition">
+                            Show All 21 Works
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group by Era when viewing 'all' or 'favorites' without search, or render grouped sections cleanly
+            const era1Poems = currentFilteredList.filter(p => p.era === 'era1');
+            const era2Poems = currentFilteredList.filter(p => p.era === 'era2');
+
+            if (era1Poems.length > 0) {
+                container.appendChild(buildEraSection(
+                    'ERA I: THE FUTA GENESIS & CAMPUS DAYS (2014 – 2016)',
+                    'Early campus reflections, March 16th birthday milestones, maternal devotion, playful wordplay, and brotherhood.',
+                    'gold',
+                    era1Poems
+                ));
+            }
+
+            if (era2Poems.length > 0) {
+                container.appendChild(buildEraSection(
+                    'ERA II: THE STORM, HEAVY ARTILLERY & DECADE RECKONING (2018 – 2020)',
+                    'Unfiltered reckoning, stoic survival, existential battles, and closing a ten-year cycle with unbroken resolve.',
+                    'neonEmerald',
+                    era2Poems
+                ));
+            }
+        }
+
+        function buildEraSection(heading, subtitle, accentColor, poemsList) {
+            const section = document.createElement('section');
+            section.className = 'space-y-6 animate-fade-up';
+
+            const badgeClass = accentColor === 'gold'
+                ? 'bg-gold/10 text-gold border-gold/30'
+                : 'bg-neonEmerald/10 text-neonEmerald border-neonEmerald/30';
+
+            section.innerHTML = `
+                <div class="border-b border-gray-800 pb-4 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+                    <div>
+                        <span class="inline-block text-[11px] font-semibold uppercase tracking-widest px-3 py-1 rounded-full border ${badgeClass} mb-2">
+                            ${poemsList.length} ${poemsList.length === 1 ? 'Work' : 'Works'}
+                        </span>
+                        <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">${heading}</h2>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-1">${subtitle}</p>
+                    </div>
+                </div>
+            `;
+
+            const grid = document.createElement('div');
+            grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
+
+            poemsList.forEach(poem => {
+                const isFav = favoriteIds.includes(poem.id);
+                const formattedNum = String(poem.number).padStart(2, '0');
+                const hoverBorder = accentColor === 'gold' ? 'hover:border-gold/50' : 'hover:border-neonEmerald/50';
+                const numColor = accentColor === 'gold' ? 'text-gold' : 'text-neonEmerald';
+
+                const card = document.createElement('article');
+                card.className = `bg-surface hover:bg-surfaceHover border border-gray-800 ${hoverBorder} rounded-3xl p-6 transition duration-300 flex flex-col justify-between cursor-pointer group shadow-xl`;
+                card.onclick = () => openReader(poem.id);
+
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-xs font-bold ${numColor} tracking-wider">#${formattedNum}</span>
+                            <span class="text-xs text-gray-400">${poem.date}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-gold transition mb-2 leading-snug">
+                            ${poem.title}
+                        </h3>
+                        <p class="font-poetic text-sm text-gray-400 italic line-clamp-3 leading-relaxed mb-5">
+                            ${poem.content}
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-800/80 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-gold inline-flex items-center gap-1.5 group-hover:translate-x-1 transition">
+                            Read Full Piece <i class="fa-solid fa-arrow-right"></i>
+                        </span>
+                        <button onclick="event.stopPropagation(); toggleFavorite('${poem.id}')" class="w-8 h-8 rounded-lg hover:bg-obsidian flex items-center justify-center text-gray-400 hover:text-gold transition" title="Bookmark Favorite">
+                            <i class="${isFav ? 'fa-solid text-gold' : 'fa-regular'} fa-heart"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            section.appendChild(grid);
+            return section;
+        }
+
+        // =====================================================================
+        // READER MODAL FUNCTIONS
+        // =====================================================================
+        function openReader(poemId) {
+            const poem = allPoems.find(p => p.id === poemId);
+            if (!poem) return;
+
+            activePoemId = poemId;
+            const formattedNum = String(poem.number).padStart(2, '0');
+            const eraShort = poem.era === 'era1' ? 'ERA I • FUTA GENESIS' : 'ERA II • STORM & DECADE';
+
+            document.getElementById('readerNumberBadge').textContent = `#${formattedNum} • ${eraShort}`;
+            document.getElementById('readerDate').textContent = poem.date;
+            document.getElementById('readerTitle').textContent = poem.title;
+            document.getElementById('readerStanzas').textContent = poem.content;
+
+            // Context note handling
+            const contextBox = document.getElementById('readerContextBox');
+            const contextText = document.getElementById('readerContextText');
+            if (poem.context) {
+                contextText.textContent = poem.context;
+                contextBox.classList.remove('hidden');
+            } else {
+                contextBox.classList.add('hidden');
+            }
+
+            // Update Favorite Icon
+            updateReaderFavIcon();
+
+            // Update Next / Previous buttons within currentFilteredList (or allPoems fallback)
+            const list = currentFilteredList.some(p => p.id === poemId) ? currentFilteredList : allPoems;
+            const idx = list.findIndex(p => p.id === poemId);
+
+            const prevBtn = document.getElementById('prevPoemBtn');
+            const nextBtn = document.getElementById('nextPoemBtn');
+
+            if (idx > 0) {
+                prevBtn.disabled = false;
+                document.getElementById('prevPoemTitle').textContent = list[idx - 1].title;
+            } else {
+                prevBtn.disabled = true;
+                document.getElementById('prevPoemTitle').textContent = 'Start of Archive';
+            }
+
+            if (idx < list.length - 1) {
+                nextBtn.disabled = false;
+                document.getElementById('nextPoemTitle').textContent = list[idx + 1].title;
+            } else {
+                nextBtn.disabled = true;
+                document.getElementById('nextPoemTitle').textContent = 'End of Archive';
+            }
+
+            const modal = document.getElementById('readerModal');
+            modal.classList.remove('hidden');
+            modal.querySelector('.overflow-y-auto').scrollTop = 0;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeReader() {
+            document.getElementById('readerModal').classList.add('hidden');
+            document.body.style.overflow = '';
+            activePoemId = null;
+        }
+
+        function navigatePoem(direction) {
+            if (!activePoemId) return;
+            const list = currentFilteredList.some(p => p.id === activePoemId) ? currentFilteredList : allPoems;
+            const idx = list.findIndex(p => p.id === activePoemId);
+            const targetIdx = idx + direction;
+            if (targetIdx >= 0 && targetIdx < list.length) {
+                openReader(list[targetIdx].id);
+            }
+        }
+
+        function changeReaderFontSize(delta) {
+            readerFontSize = Math.max(14, Math.min(28, readerFontSize + delta));
+            document.getElementById('readerStanzas').style.fontSize = `${readerFontSize}px`;
+            document.getElementById('fontSizeLabel').textContent = `${readerFontSize}px`;
+        }
+
+        function copyPoemText() {
+            const poem = allPoems.find(p => p.id === activePoemId);
+            if (!poem) return;
+
+            const textToCopy = `${poem.title}\nBy Awóníran Olúwaséyí (#Hans_G_Baba) — ${poem.date}\n\n${poem.content}`;
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = textToCopy;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+
+            showToast('Poem copied verbatim to clipboard', 'fa-solid fa-clipboard-check');
+        }
+
+        // =====================================================================
+        // FAVORITES MANAGEMENT
+        // =====================================================================
+        function toggleFavorite(poemId) {
+            if (favoriteIds.includes(poemId)) {
+                favoriteIds = favoriteIds.filter(id => id !== poemId);
+                showToast('Removed from Favorites', 'fa-regular fa-heart');
+            } else {
+                favoriteIds.push(poemId);
+                showToast('Saved to Favorites', 'fa-solid fa-heart');
+            }
+
+            try {
+                localStorage.setItem('hans_g_baba_favs_v2', JSON.stringify(favoriteIds));
+            } catch (e) {
+                console.error('Could not save favorites:', e);
+            }
+
+            updateCounts();
+            renderAnthology();
+            if (activePoemId === poemId) {
+                updateReaderFavIcon();
+            }
+        }
+
+        function toggleCurrentFavorite() {
+            if (activePoemId) {
+                toggleFavorite(activePoemId);
+            }
+        }
+
+        function updateReaderFavIcon() {
+            const isFav = favoriteIds.includes(activePoemId);
+            const btn = document.getElementById('readerFavBtn');
+            btn.innerHTML = `<i class="${isFav ? 'fa-solid text-gold' : 'fa-regular'} fa-heart text-lg"></i>`;
+        }
+
+        // =====================================================================
+        // SPECIAL TRIBUTE & ADD NEW POEM MODALS
+        // =====================================================================
+        function openTributeModal() {
+            document.getElementById('tributeModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeTributeModal() {
+            document.getElementById('tributeModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function openAddModal() {
+            document.getElementById('addModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddModal() {
+            document.getElementById('addModal').classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('addPoemForm').reset();
+        }
+
+        function saveNewPoem(event) {
+            event.preventDefault();
+            const title = document.getElementById('inputTitle').value.trim();
+            const era = document.getElementById('inputEra').value;
+            const date = document.getElementById('inputDate').value.trim() || 'New Vault Entry';
+            const context = document.getElementById('inputContext').value.trim();
+            const content = document.getElementById('inputContent').value.trim();
+
+            if (!title || !content) return;
+
+            const newEntry = {
+                id: 'custom-' + Date.now(),
+                number: allPoems.length + 1,
+                era: era,
+                eraLabel: era === 'era1'
+                    ? 'Era I: FUTA Genesis & Campus Days (2014–2016)'
+                    : 'Era II: The Storm, Heavy Artillery & Decade Reckoning (2018–2020)',
+                title: title,
+                date: date,
+                theme: 'Personal Verse',
+                context: context,
+                content: content
+            };
+
+            customPoems.push(newEntry);
+            allPoems = [...ARCHIVE_POEMS, ...customPoems];
+
+            try {
+                localStorage.setItem('hans_g_baba_custom_poems_v2', JSON.stringify(customPoems));
+            } catch (e) {
+                console.error('Failed to save custom poem to localStorage:', e);
+            }
+
+            updateCounts();
+            closeAddModal();
+            setFilter('all');
+            showToast(`"${title}" inscribed into the Vault`, 'fa-solid fa-feather-pointed');
+        }
+
+        // =====================================================================
+        // TOAST NOTIFICATION HELPER
+        // =====================================================================
+        let toastTimeout = null;
+        function showToast(message, iconClass) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastText').textContent = message;
+            document.getElementById('toastIcon').className = `${iconClass} text-gold text-lg`;
+
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+
+        // =====================================================================
+        // WEB AUDIO API AMBIENT PAD SYNTHESIZER (ZERO EXTERNAL DEPENDENCIES)
+        // =====================================================================
+        let audioCtx = null;
+        let isAmbientPlaying = false;
+        let ambientInterval = null;
+        let masterGain = null;
+
+        function toggleAmbientAudio() {
+            const btn = document.getElementById('ambientBtn');
+            const label = document.getElementById('ambientLabel');
+
+            if (!isAmbientPlaying) {
+                try {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (!audioCtx) {
+                        audioCtx = new AudioContext();
+                    }
+                    if (audioCtx.state === 'suspended') {
+                        audioCtx.resume();
+                    }
+
+                    masterGain = audioCtx.createGain();
+                    masterGain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                    masterGain.connect(audioCtx.destination);
+
+                    // Warm contemplative chord frequencies (D minor 9 / F major 7 ambience)
+                    const chords = [
+                        [146.83, 220.00, 261.63, 329.63], // Dm9
+                        [174.61, 220.00, 261.63, 329.63], // Fmaj7
+                        [130.81, 196.00, 246.94, 293.66], // Cmaj9
+                        [110.00, 164.81, 196.00, 261.63]  // Am7
+                    ];
+                    let chordIndex = 0;
+
+                    const playPadChord = () => {
+                        if (!isAmbientPlaying || !audioCtx) return;
+                        const now = audioCtx.currentTime;
+                        const freqs = chords[chordIndex % chords.length];
+                        chordIndex++;
+
+                        freqs.forEach(freq => {
+                            const osc = audioCtx.createOscillator();
+                            const noteGain = audioCtx.createGain();
+
+                            osc.type = 'sine';
+                            osc.frequency.setValueAtTime(freq, now);
+
+                            // Smooth slow attack and release
+                            noteGain.gain.setValueAtTime(0.0001, now);
+                            noteGain.gain.exponentialRampToValueAtTime(0.22, now + 1.8);
+                            noteGain.gain.exponentialRampToValueAtTime(0.0001, now + 5.2);
+
+                            osc.connect(noteGain);
+                            noteGain.connect(masterGain);
+
+                            osc.start(now);
+                            osc.stop(now + 5.4);
+                        });
+                    };
+
+                    isAmbientPlaying = true;
+                    playPadChord();
+                    ambientInterval = setInterval(playPadChord, 4800);
+
+                    btn.className = 'px-3.5 py-2.5 rounded-xl bg-neonEmerald/15 border border-neonEmerald text-neonEmerald text-xs sm:text-sm font-medium transition flex items-center gap-2 emerald-glow';
+                    label.textContent = 'Ambient On';
+                    showToast('Ambient Reading Mode enabled', 'fa-solid fa-wave-square');
+                } catch (err) {
+                    console.error('Web Audio initialization failed:', err);
+                    showToast('Audio unavailable in this browser context', 'fa-solid fa-circle-exclamation');
+                }
+            } else {
+                isAmbientPlaying = false;
+                if (ambientInterval) clearInterval(ambientInterval);
+                if (masterGain && audioCtx) {
+                    masterGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.5);
+                }
+                btn.className = 'px-3.5 py-2.5 rounded-xl bg-surface hover:bg-surfaceHover border border-gray-800 text-gray-300 text-xs sm:text-sm font-medium transition flex items-center gap-2';
+                label.textContent = 'Ambient Mode';
+                showToast('Ambient Reading Mode muted', 'fa-solid fa-volume-xmark');
+            }
+        }
+
+        // Keyboard shortcuts for Reader Modal (Escape to close, Left/Right arrows to navigate)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeReader();
+                closeTributeModal();
+                closeAddModal();
+            } else if (activePoemId) {
+                if (e.key === 'ArrowLeft') navigatePoem(-1);
+                if (e.key === 'ArrowRight') navigatePoem(1);
+            }
+        });
+    </script>
+</body>
+</html>
